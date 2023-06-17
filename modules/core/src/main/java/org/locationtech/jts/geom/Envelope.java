@@ -30,15 +30,15 @@ import java.io.Serializable;
 public class Envelope
     implements Comparable, Serializable
 {
-    private static final long serialVersionUID = 5873921885273102420L;
+    private static final long serialVersionUID = 5873921885273106181L;
 
     public int hashCode() {
         //Algorithm from Effective Java by Joshua Bloch [Jon Aquino]
         int result = 17;
-        result = 37 * result + Coordinate.hashCode(minx);
-        result = 37 * result + Coordinate.hashCode(maxx);
-        result = 37 * result + Coordinate.hashCode(miny);
-        result = 37 * result + Coordinate.hashCode(maxy);
+        result = 37 * result + Coordinate.hashCode(bound[0]);
+        result = 37 * result + Coordinate.hashCode(bound[2]);
+        result = 37 * result + Coordinate.hashCode(bound[1]);
+        result = 37 * result + Coordinate.hashCode(bound[3]);
         return result;
     }
 
@@ -95,25 +95,26 @@ public class Envelope
     return true;
   }
 
+  private double[] bound = new double[4];
   /**
    *  the minimum x-coordinate
    */
-  private double minx;
+//  private double bound[0];
 
   /**
    *  the maximum x-coordinate
    */
-  private double maxx;
+//  private double bound[2];
 
   /**
    *  the minimum y-coordinate
    */
-  private double miny;
+//  private double bound[1];
 
   /**
    *  the maximum y-coordinate
    */
-  private double maxy;
+//  private double bound[3];
 
   /**
    *  Creates a null <code>Envelope</code>.
@@ -185,20 +186,28 @@ public class Envelope
   public void init(double x1, double x2, double y1, double y2)
   {
     if (x1 < x2) {
-      minx = x1;
-      maxx = x2;
+//      bound[0] = x1;
+//      bound[2] = x2;
+      bound[0] = x1;
+      bound[2] = x2;
     }
     else {
-      minx = x2;
-      maxx = x1;
+//      bound[0] = x2;
+//      bound[2] = x1;
+      bound[0] = x2;
+      bound[2] = x1;
     }
     if (y1 < y2) {
-      miny = y1;
-      maxy = y2;
+//      bound[1] = y1;
+//      bound[3] = y2;
+      bound[1] = y1;
+      bound[3] = y2;
     }
     else {
-      miny = y2;
-      maxy = y1;
+//      bound[1] = y2;
+//      bound[3] = y1;
+      bound[1] = y2;
+      bound[3] = y1;
     }
   }
 
@@ -239,10 +248,11 @@ public class Envelope
    */
   public void init(Envelope env)
   {
-    this.minx = env.minx;
-    this.maxx = env.maxx;
-    this.miny = env.miny;
-    this.maxy = env.maxy;
+    this.bound[0] = env.bound[0];
+    this.bound[1] = env.bound[1];
+    this.bound[2] = env.bound[2];
+    this.bound[3] = env.bound[3];
+    
   }
 
 
@@ -251,10 +261,10 @@ public class Envelope
    *  of the empty geometry.
    */
   public void setToNull() {
-    minx = 0;
-    maxx = -1;
-    miny = 0;
-    maxy = -1;
+    bound[0] = 0;
+    bound[2] = -1;
+    bound[1] = 0;
+    bound[3] = -1;
   }
 
   /**
@@ -265,7 +275,8 @@ public class Envelope
    *      or is the envelope of the empty geometry.
    */
   public boolean isNull() {
-    return maxx < minx;
+//    return bound[2] < bound[0];
+    return bound[2] < bound[0];
   }
 
   /**
@@ -277,7 +288,7 @@ public class Envelope
     if (isNull()) {
       return 0;
     }
-    return maxx - minx;
+    return bound[2] - bound[0];
   }
 
   /**
@@ -289,7 +300,7 @@ public class Envelope
     if (isNull()) {
       return 0;
     }
-    return maxy - miny;
+    return bound[3] - bound[1];
   }
 
   /**
@@ -312,7 +323,7 @@ public class Envelope
    *@return    the minimum x-coordinate
    */
   public double getMinX() {
-    return minx;
+    return bound[0];
   }
 
   /**
@@ -322,7 +333,7 @@ public class Envelope
    *@return    the maximum x-coordinate
    */
   public double getMaxX() {
-    return maxx;
+    return bound[2];
   }
 
   /**
@@ -332,7 +343,7 @@ public class Envelope
    *@return    the minimum y-coordinate
    */
   public double getMinY() {
-    return miny;
+    return bound[1];
   }
 
   /**
@@ -342,7 +353,7 @@ public class Envelope
    *@return    the maximum y-coordinate
    */
   public double getMaxY() {
-    return maxy;
+    return bound[3];
   }
 
   /**
@@ -418,13 +429,13 @@ public class Envelope
   {
     if (isNull()) return;
 
-    minx -= deltaX;
-    maxx += deltaX;
-    miny -= deltaY;
-    maxy += deltaY;
+    bound[0] -= deltaX;
+    bound[2] += deltaX;
+    bound[1] -= deltaY;
+    bound[3] += deltaY;
 
     // check for envelope disappearing
-    if (minx > maxx || miny > maxy)
+    if (bound[0] > bound[2] || bound[1] > bound[3])
       setToNull();
   }
 
@@ -438,23 +449,23 @@ public class Envelope
    */
   public void expandToInclude(double x, double y) {
     if (isNull()) {
-      minx = x;
-      maxx = x;
-      miny = y;
-      maxy = y;
+      bound[0] = x;
+      bound[2] = x;
+      bound[1] = y;
+      bound[3] = y;
     }
     else {
-      if (x < minx) {
-        minx = x;
+      if (x < bound[0]) {
+        bound[0] = x;
       }
-      if (x > maxx) {
-        maxx = x;
+      if (x > bound[2]) {
+        bound[2] = x;
       }
-      if (y < miny) {
-        miny = y;
+      if (y < bound[1]) {
+        bound[1] = y;
       }
-      if (y > maxy) {
-        maxy = y;
+      if (y > bound[3]) {
+        bound[3] = y;
       }
     }
   }
@@ -472,23 +483,23 @@ public class Envelope
       return;
     }
     if (isNull()) {
-      minx = other.getMinX();
-      maxx = other.getMaxX();
-      miny = other.getMinY();
-      maxy = other.getMaxY();
+      bound[0] = other.bound[0];
+      bound[2] = other.bound[2];
+      bound[1] = other.bound[1];
+      bound[3] = other.bound[3];
     }
     else {
-      if (other.minx < minx) {
-        minx = other.minx;
+      if (other.bound[0] < bound[0]) {
+        bound[0] = other.bound[0];
       }
-      if (other.maxx > maxx) {
-        maxx = other.maxx;
+      if (other.bound[2] > bound[2]) {
+        bound[2] = other.bound[2];
       }
-      if (other.miny < miny) {
-        miny = other.miny;
+      if (other.bound[1] < bound[1]) {
+        bound[1] = other.bound[1];
       }
-      if (other.maxy > maxy) {
-        maxy = other.maxy;
+      if (other.bound[3] > bound[3]) {
+        bound[3] = other.bound[3];
       }
     }
   }
@@ -503,8 +514,8 @@ public class Envelope
     if (isNull()) {
       return;
     }
-    init(getMinX() + transX, getMaxX() + transX,
-         getMinY() + transY, getMaxY() + transY);
+    init(bound[0] + transX, bound[2] + transX,
+         bound[1] + transY, bound[3] + transY);
   }
 
   /**
@@ -516,8 +527,8 @@ public class Envelope
   public Coordinate centre() {
     if (isNull()) return null;
     return new Coordinate(
-        (getMinX() + getMaxX()) / 2.0,
-        (getMinY() + getMaxY()) / 2.0);
+        (bound[0] + bound[2]) / 2.0,
+        (bound[1] + bound[3]) / 2.0);
   }
 
   /**
@@ -531,11 +542,11 @@ public class Envelope
   {
     if (isNull() || env.isNull() || ! intersects(env)) return new Envelope();
 
-    double intMinX = minx > env.minx ? minx : env.minx;
-    double intMinY = miny > env.miny ? miny : env.miny;
-    double intMaxX = maxx < env.maxx ? maxx : env.maxx;
-    double intMaxY = maxy < env.maxy ? maxy : env.maxy;
-    return new Envelope(intMinX, intMaxX, intMinY, intMaxY);
+    double x1 = bound[0] > env.bound[0] ? bound[0] : env.bound[0];
+    double y1 = bound[1] > env.bound[1] ? bound[1] : env.bound[1];
+    double x2 = bound[2] < env.bound[2] ? bound[2] : env.bound[2];
+    double y2 = bound[3] < env.bound[3] ? bound[3] : env.bound[3];
+    return new Envelope(x1,x2,y1,y2);
   }
 
   /**
@@ -550,10 +561,10 @@ public class Envelope
    */
   public boolean intersects(Envelope other) {
       if (isNull() || other.isNull()) { return false; }
-    return !(other.minx > maxx ||
-        other.maxx < minx ||
-        other.miny > maxy ||
-        other.maxy < miny);
+    return !(other.bound[0] > bound[2] ||
+        other.bound[2] < bound[0] ||
+        other.bound[1] > bound[3] ||
+        other.bound[3] < bound[1]);
   }
   
   
@@ -568,17 +579,17 @@ public class Envelope
   public boolean intersects(Coordinate a, Coordinate b) {
     if (isNull()) { return false; }
     
-    double envminx = (a.x < b.x) ? a.x : b.x;
-    if (envminx > maxx) return false;
+    double envMinX = (a.x < b.x) ? a.x : b.x;
+    if (envMinX > bound[2]) return false;
     
-    double envmaxx = (a.x > b.x) ? a.x : b.x;
-    if (envmaxx < minx) return false;
+    double envMaxX = (a.x > b.x) ? a.x : b.x;
+    if (envMaxX < bound[0]) return false;
     
-    double envminy = (a.y < b.y) ? a.y : b.y;
-    if (envminy > maxy) return false;
+    double envMinY = (a.y < b.y) ? a.y : b.y;
+    if (envMinY > bound[3]) return false;
     
-    double envmaxy = (a.y > b.y) ? a.y : b.y;
-    if (envmaxy < miny) return false;
+    double envMaxY = (a.y > b.y) ? a.y : b.y;
+    if (envMaxY < bound[1]) return false;
     
     return true;
   }
@@ -633,10 +644,10 @@ public class Envelope
    */
   public boolean intersects(double x, double y) {
   	if (isNull()) return false;
-    return ! (x > maxx ||
-        x < minx ||
-        y > maxy ||
-        y < miny);
+    return ! (x > bound[2] ||
+        x < bound[0] ||
+        y > bound[3] ||
+        y < bound[1]);
   }
   /**
    * @deprecated Use #intersects instead.
@@ -723,10 +734,10 @@ public class Envelope
    */
   public boolean covers(double x, double y) {
   	if (isNull()) return false;
-    return x >= minx &&
-        x <= maxx &&
-        y >= miny &&
-        y <= maxy;
+    return x >= bound[0] &&
+        x <= bound[2] &&
+        y >= bound[1] &&
+        y <= bound[3];
   }
 
   /**
@@ -750,10 +761,10 @@ public class Envelope
    */
   public boolean covers(Envelope other) {
     if (isNull() || other.isNull()) { return false; }
-    return other.getMinX() >= minx &&
-        other.getMaxX() <= maxx &&
-        other.getMinY() >= miny &&
-        other.getMaxY() <= maxy;
+    return other.bound[0] >= bound[0] &&
+        other.bound[2] <= bound[2] &&
+        other.bound[1] >= bound[1] &&
+        other.bound[3] <= bound[3];
   }
 
   /**
@@ -767,15 +778,15 @@ public class Envelope
     if (intersects(env)) return 0;
     
     double dx = 0.0;
-    if (maxx < env.minx) 
-      dx = env.minx - maxx;
-    else if (minx > env.maxx) 
-      dx = minx - env.maxx;
+    if (bound[2] < env.bound[0]) 
+      dx = env.bound[0] - bound[2];
+    else if (bound[0] > env.bound[2]) 
+      dx = bound[0] - env.bound[2];
     
     double dy = 0.0;
-    if (maxy < env.miny) 
-      dy = env.miny - maxy;
-    else if (miny > env.maxy) dy = miny - env.maxy;
+    if (bound[3] < env.bound[1]) 
+      dy = env.bound[1] - bound[3];
+    else if (bound[1] > env.bound[3]) dy = bound[1] - env.bound[3];
 
     // if either is zero, the envelopes overlap either vertically or horizontally
     if (dx == 0.0) return dy;
@@ -791,15 +802,15 @@ public class Envelope
     if (isNull()) {
       return otherEnvelope.isNull();
     }
-    return maxx == otherEnvelope.getMaxX() &&
-        maxy == otherEnvelope.getMaxY() &&
-        minx == otherEnvelope.getMinX() &&
-        miny == otherEnvelope.getMinY();
+    return bound[2] == otherEnvelope.bound[2] &&
+        bound[3] == otherEnvelope.bound[3] &&
+        bound[0] == otherEnvelope.bound[0] &&
+        bound[1] == otherEnvelope.bound[1];
   }
 
   public String toString()
   {
-    return "Env[" + minx + " : " + maxx + ", " + miny + " : " + maxy + "]";
+    return "Env[" + bound[0] + " : " + bound[2] + ", " + bound[1] + " : " + bound[3] + "]";
   }
 
   /**
@@ -821,14 +832,14 @@ public class Envelope
       if (env.isNull()) return 1;
     }
     // compare based on numerical ordering of ordinates
-    if (minx < env.minx) return -1;
-    if (minx > env.minx) return 1;
-    if (miny < env.miny) return -1;
-    if (miny > env.miny) return 1;
-    if (maxx < env.maxx) return -1;
-    if (maxx > env.maxx) return 1;
-    if (maxy < env.maxy) return -1;
-    if (maxy > env.maxy) return 1;
+    if (bound[0] < env.bound[0]) return -1;
+    if (bound[0] > env.bound[0]) return 1;
+    if (bound[1] < env.bound[1]) return -1;
+    if (bound[1] > env.bound[1]) return 1;
+    if (bound[2] < env.bound[2]) return -1;
+    if (bound[2] > env.bound[2]) return 1;
+    if (bound[3] < env.bound[3]) return -1;
+    if (bound[3] > env.bound[3]) return 1;
     return 0;
     
     
