@@ -85,7 +85,7 @@ class OverlayUtil {
    * are:
    * <ul>
    * <li>{@link OverlayNG#INTERSECTION}: result envelope is the intersection of the input envelopes
-   * <li>{@link OverlayNG#DIFERENCE}: result envelope is the envelope of the A input geometry
+   * <li>{@link OverlayNG#DIFFERENCE}: result envelope is the envelope of the A input geometry
    * </ul>
    * Otherwise, <code>null</code> is returned to indicate full extent.
    * 
@@ -157,7 +157,8 @@ class OverlayUtil {
    * or their envelopes are disjoint).
    * 
    * @param opCode the overlay operation
-   * @param inputGeom the input geometries
+   * @param a the first input geometries
+   * @param b the second input geometries
    * @return true if the overlay result is determined to be empty
    */
   static boolean isEmptyResult(int opCode, Geometry a, Geometry b, PrecisionModel pm) {
