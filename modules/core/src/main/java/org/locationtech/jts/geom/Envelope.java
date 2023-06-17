@@ -30,7 +30,7 @@ import java.io.Serializable;
 public class Envelope
     implements Comparable, Serializable
 {
-    private static final long serialVersionUID = 5873921885273106181L;
+    private static final long serialVersionUID = 5873921885273102420L;
 
     public int hashCode() {
         //Algorithm from Effective Java by Joshua Bloch [Jon Aquino]

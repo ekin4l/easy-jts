@@ -336,15 +336,6 @@ public abstract class XYCoordinateSequence implements CoordinateSequence, Serial
             return new Coordinate(x, y);
         }
 
-        /**
-         * Gets the underlying array containing the coordinate values.
-         *
-         * @return the array of coordinate values
-         */
-        public double[] getRawCoordinates()
-        {
-            return coords;
-        }
 
         /**
          * @see CoordinateSequence#size()
@@ -400,6 +391,10 @@ public abstract class XYCoordinateSequence implements CoordinateSequence, Serial
                 }
             }
             return env;
+        }
+
+        public double getRowXY(int idx){
+            return this.coords[idx];
         }
     }
 
@@ -573,5 +568,10 @@ public abstract class XYCoordinateSequence implements CoordinateSequence, Serial
             }
             return env;
         }
+
+        public double getRowXY(int idx){
+            return this.coords[idx];
+        }
     }
+    public abstract double getRowXY(int idx);
 }

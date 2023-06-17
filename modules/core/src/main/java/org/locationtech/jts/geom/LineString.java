@@ -12,6 +12,8 @@
 package org.locationtech.jts.geom;
 
 import org.locationtech.jts.algorithm.Length;
+import org.locationtech.jts.geom.impl.XYCoordinateReferEvelope;
+import org.locationtech.jts.geom.impl.XYCoordinateSequence;
 import org.locationtech.jts.operation.BoundaryOp;
 
 /**
@@ -220,6 +222,7 @@ public class LineString
       return new Envelope();
     }
     return points.expandEnvelope(new Envelope());
+
   }
 
   public boolean equalsExact(Geometry other, double tolerance) {
