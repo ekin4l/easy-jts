@@ -44,10 +44,10 @@ public interface CoordinateSequence
     extends Cloneable
 {
   /** Standard ordinate index value for, where X is 0 */
-  int X = 0;
+  static int X = 0;
 
   /** Standard ordinate index value for, where Y is 1 */
-  int Y = 1;
+  static int Y = 1;
   
   /**
    * Standard ordinate index value for, where Z is 2.
@@ -56,7 +56,7 @@ public interface CoordinateSequence
    * using {@link #getDimension()} and {@link #getMeasures()} before use.
    */
   /** Standard z-ordinate index */
-  int Z = 2;
+  static int Z = 2;
 
   /**
    * Standard ordinate index value for, where M is 3.
@@ -64,7 +64,7 @@ public interface CoordinateSequence
    * <p>This constant assumes XYZM coordinate sequence definition, please check this assumption
    * using {@link #getDimension()} and {@link #getMeasures()} before use.
    */
-  int M = 3;
+  static int M = 3;
 
   /**
    * Returns the dimension (number of ordinates in each coordinate) for this sequence.
