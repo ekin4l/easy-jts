@@ -349,7 +349,7 @@ public class Polygon
     for (int i = 0; i < holes.length; i++) {
     	holeCopies[i] = (LinearRing) holes[i].copy();
     }
-    return new Polygon(shellCopy, holeCopies, factory);
+    return new Polygon(shellCopy, holeCopies, getFactory());
   }
 
   public Geometry convexHull() {

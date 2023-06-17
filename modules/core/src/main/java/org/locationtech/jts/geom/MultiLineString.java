@@ -116,7 +116,7 @@ public class MultiLineString
     for (int i = 0; i < lineStrings.length; i++) {
       lineStrings[i] = (LineString) this.geometries[i].reverse();
     }
-    return new MultiLineString(lineStrings, factory);
+    return new MultiLineString(lineStrings, getFactory());
   }
   
   protected MultiLineString copyInternal() {
@@ -124,7 +124,7 @@ public class MultiLineString
     for (int i = 0; i < lineStrings.length; i++) {
       lineStrings[i] = (LineString) this.geometries[i].copy();
     }
-    return new MultiLineString(lineStrings, factory);
+    return new MultiLineString(lineStrings, getFactory());
   }
 
   public boolean equalsExact(Geometry other, double tolerance) {

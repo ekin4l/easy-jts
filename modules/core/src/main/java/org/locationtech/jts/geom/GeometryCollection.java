@@ -230,7 +230,7 @@ public class GeometryCollection extends Geometry {
     for (int i = 0; i < geometries.length; i++) {
       geometries[i] = this.geometries[i].copy();
     }
-    return new GeometryCollection(geometries, factory);
+    return new GeometryCollection(geometries, getFactory());
   }
 
   public void normalize() {
@@ -294,7 +294,7 @@ public class GeometryCollection extends Geometry {
     for (int i = 0; i < geometries.length; i++) {
       geometries[i] = this.geometries[i].reverse();
     }
-    return new GeometryCollection(geometries, factory);
+    return new GeometryCollection(geometries, getFactory());
   }
 }
 

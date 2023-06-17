@@ -235,7 +235,7 @@ public class LayerStyle implements Style  {
       double offsetDistance = viewport.toModel(offsetSize);
       transformGeom = offsetLine(geom, offsetDistance);
       if (transformGeom != null) {
-        transformGeom.setUserData(geom.getUserData());
+        //transformGeom.setUserData(geom.getUserData());
       }
     }
     return transformGeom;

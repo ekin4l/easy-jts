@@ -98,7 +98,7 @@ public class KMLReader {
     /**
      * Reads a KML representation of a {@link Geometry} from a {@link String}.
      * If any attribute names were specified during {@link KMLReader} construction,
-     * they will be stored as {@link Map} in {@link Geometry#setUserData(Object)}
+     * they will be stored as {@link Map} in Geometry#setUserData(Object)
      *
      * @param kmlGeometryString string that specifies kml representation of geometry
      * @return a <code>Geometry</code> specified by <code>kmlGeometryString</code>
@@ -193,7 +193,7 @@ public class KMLReader {
         KMLCoordinatesAndAttributes kmlCoordinatesAndAttributes = parseKMLCoordinatesAndAttributes(xmlStreamReader, POINT);
 
         Point point = geometryFactory.createPoint(kmlCoordinatesAndAttributes.coordinates[0]);
-        point.setUserData(kmlCoordinatesAndAttributes.attributes);
+        //point.setUserData(kmlCoordinatesAndAttributes.attributes);
 
         return point;
     }
@@ -202,7 +202,7 @@ public class KMLReader {
         KMLCoordinatesAndAttributes kmlCoordinatesAndAttributes = parseKMLCoordinatesAndAttributes(xmlStreamReader, LINESTRING);
 
         LineString lineString = geometryFactory.createLineString(kmlCoordinatesAndAttributes.coordinates);
-        lineString.setUserData(kmlCoordinatesAndAttributes.attributes);
+        //lineString.setUserData(kmlCoordinatesAndAttributes.attributes);
 
         return lineString;
     }
@@ -243,7 +243,7 @@ public class KMLReader {
         }
 
         Polygon polygon = geometryFactory.createPolygon(shell, holes == null ? null : holes.toArray(new LinearRing[]{}));
-        polygon.setUserData(attributes);
+        //polygon.setUserData(attributes);
 
         return polygon;
     }

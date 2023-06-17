@@ -16,7 +16,6 @@ import org.locationtech.jts.geom.GeometryFactory;
 import org.locationtech.jts.geom.Point;
 import org.locationtech.jts.triangulate.ConformingDelaunayTriangulationBuilder;
 import org.locationtech.jts.triangulate.DelaunayTriangulationBuilder;
-import org.locationtech.jts.triangulate.VertexTaggedGeometryDataMapper;
 import org.locationtech.jts.triangulate.VoronoiDiagramBuilder;
 import org.locationtech.jts.triangulate.quadedge.LocateFailureException;
 import org.locationtech.jtstest.util.GeometryDataUtil;
@@ -94,22 +93,6 @@ public class TriangulationFunctions
     return diagram;
   }
 
-  public static Geometry voronoiDiagramWithData(Geometry sitesGeom, Geometry clipGeom)
-  {
-  	GeometryDataUtil.setComponentDataToIndex(sitesGeom);
-  	
-  	VertexTaggedGeometryDataMapper mapper = new VertexTaggedGeometryDataMapper();
-  	mapper.loadSourceGeometries(sitesGeom);
-  	
-    VoronoiDiagramBuilder builder = new VoronoiDiagramBuilder();
-    builder.setSites(mapper.getCoordinates());
-    if (clipGeom != null)
-    	builder.setClipEnvelope(clipGeom.getEnvelopeInternal());
-    builder.setTolerance(TRIANGULATION_TOLERANCE);
-    Geometry diagram = builder.getDiagram(sitesGeom.getFactory()); 
-    mapper.transferData(diagram);
-    return diagram;
-  }
 
   public static Geometry voronoiRelaxation(Geometry sitesGeom, Geometry clipGeom, int nIter) {
     Geometry voronoiPolys = null;

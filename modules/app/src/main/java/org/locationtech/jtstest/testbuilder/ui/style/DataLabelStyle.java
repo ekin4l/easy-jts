@@ -58,11 +58,11 @@ public class DataLabelStyle implements Style
 
   public void paint(Geometry geom, Viewport viewport, Graphics2D g2d)
   {
-    if (geom.getUserData() == null) return;
+//    if (geom.getUserData() == null) return;
     g2d.setColor(color);
     g2d.setFont(font);
-    
-    String label = geom.getUserData().toString();
+
+    String label = ""; //geom.getUserData().toString();
     
     if (geom instanceof Polygon) {
       paintLabelPolygon(label, geom, viewport, g2d);

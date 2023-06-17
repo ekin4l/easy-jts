@@ -185,18 +185,18 @@ public abstract class Geometry
   /**
    * The {@link GeometryFactory} used to create this Geometry
    */
-  protected final GeometryFactory factory;
+  //protected final GeometryFactory factory;
 
   /**
    *  The ID of the Spatial Reference System used by this <code>Geometry</code>
    */
-  protected int SRID;
+  //protected int SRID;
 
   /**
    * An object reference which can be used to carry ancillary data defined
    * by the client.
    */
-  private Object userData = null;
+  //private Object userData = null;
 
   /**
    * Creates a new <code>Geometry</code> via the specified GeometryFactory.
@@ -204,8 +204,8 @@ public abstract class Geometry
    * @param factory
    */
   public Geometry(GeometryFactory factory) {
-    this.factory = factory;
-    this.SRID = factory.getSRID();
+    //this.factory = factory;
+    //this.SRID = factory.getSRID();
   }
 
   /**
@@ -263,7 +263,7 @@ public abstract class Geometry
    *
    */
   public int getSRID() {
-    return SRID;
+    return GeometryFactory.getDefault().getSRID();
   }
     /**
    *  Sets the ID of the Spatial Reference System used by the <code>Geometry</code>.
@@ -277,7 +277,7 @@ public abstract class Geometry
    *  @see GeometryFactory
    */
   public void setSRID(int SRID) {
-    this.SRID = SRID;
+    //this.SRID = SRID;
   }
 
   /**
@@ -286,7 +286,7 @@ public abstract class Geometry
    * @return the factory for this geometry
    */
   public GeometryFactory getFactory() {
-         return factory;
+         return GeometryFactory.getDefault();
   }
 
   /**
@@ -294,9 +294,9 @@ public abstract class Geometry
    *
    * @return the user data object, or <code>null</code> if none set
    */
-  public Object getUserData() {
-        return userData;
-  }
+//  public Object getUserData() {
+//        return userData;
+//  }
 
   /**
    * Returns the number of {@link Geometry}s in a {@link GeometryCollection}
@@ -330,9 +330,9 @@ public abstract class Geometry
    * @param userData an object, the semantics for which are defined by the
    * application using this Geometry
    */
-  public void setUserData(Object userData) {
-        this.userData = userData;
-  }
+//  public void setUserData(Object userData) {
+//        this.userData = userData;
+//  }
 
 
   /**
@@ -342,7 +342,7 @@ public abstract class Geometry
    *      <code>Geometry</code> and all other <code>Geometry</code>s
    */
   public PrecisionModel getPrecisionModel() {
-    return factory.getPrecisionModel();
+    return GeometryFactory.getDefault().getPrecisionModel();
   }
 
   /**
@@ -522,7 +522,7 @@ public abstract class Geometry
   public Point getCentroid()
   {
     if (isEmpty())
-      return factory.createPoint();
+      return GeometryFactory.getDefault().createPoint();
     Coordinate centPt = Centroid.getCentroid(this);
     return createPointFromInternalCoord(centPt, this);
   }
@@ -539,7 +539,7 @@ public abstract class Geometry
    */
   public Point getInteriorPoint()
   {
-    if (isEmpty()) return factory.createPoint();
+    if (isEmpty()) return GeometryFactory.getDefault().createPoint();
     Coordinate pt = InteriorPoint.getInteriorPoint(this);
     return createPointFromInternalCoord(pt, this);
   }
@@ -1314,7 +1314,7 @@ public abstract class Geometry
     Geometry res = reverseInternal();
     if (this.envelope != null)
       res.envelope = this.envelope.copy();
-    res.setSRID(getSRID());
+    //res.setSRID(getSRID());
 
     return res;
   }
@@ -1622,8 +1622,8 @@ public abstract class Geometry
   public Geometry copy() {
     Geometry copy = copyInternal();
     copy.envelope = envelope == null ? null : envelope.copy();
-    copy.SRID = this.SRID;
-    copy.userData = this.userData;
+    //copy.SRID = this.SRID;
+    //copy.userData = this.userData;
     return copy;
   }
 

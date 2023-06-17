@@ -131,7 +131,7 @@ public class MultiPolygon
     for (int i = 0; i < polygons.length; i++) {
       polygons[i] = (Polygon) this.geometries[i].reverse();
     }
-    return new MultiPolygon(polygons, factory);
+    return new MultiPolygon(polygons, getFactory());
   }
   
   protected MultiPolygon copyInternal() {
@@ -139,7 +139,7 @@ public class MultiPolygon
     for (int i = 0; i < polygons.length; i++) {
       polygons[i] = (Polygon) this.geometries[i].copy();
     }
-    return new MultiPolygon(polygons, factory);
+    return new MultiPolygon(polygons, getFactory());
   }
 
   protected int getTypeCode() {

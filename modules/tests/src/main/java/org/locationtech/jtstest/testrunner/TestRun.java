@@ -16,6 +16,8 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import org.locationtech.jts.geom.Geometry;
+import org.locationtech.jts.geom.GeometryFactory;
 import org.locationtech.jts.geom.PrecisionModel;
 import org.locationtech.jtstest.geomop.GeometryOperation;
 
@@ -133,10 +135,13 @@ public class TestRun implements Runnable
   }
 
   public void run() {
+    GeometryFactory gf = new GeometryFactory(precisionModel,0);
+    GeometryFactory.setDefaultFactory(gf);
     for (TestCase testCase : testCases ) {
       if (testCaseIndexToRun < 0 || testCase.getCaseIndex() == testCaseIndexToRun)
       	testCase.run();
     }
+    GeometryFactory.initDefaultFactory();
   }
 
 }

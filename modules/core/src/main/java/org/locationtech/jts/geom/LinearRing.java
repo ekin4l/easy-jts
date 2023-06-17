@@ -130,7 +130,7 @@ public class LinearRing extends LineString
   }
 
   protected LinearRing copyInternal() {
-    return new LinearRing(points.copy(), factory);
+    return new LinearRing(points.copy(), getFactory());
   }
 
   public LinearRing reverse()

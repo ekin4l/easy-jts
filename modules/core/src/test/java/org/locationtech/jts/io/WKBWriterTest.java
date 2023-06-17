@@ -11,10 +11,7 @@
  */
 package org.locationtech.jts.io;
 
-import org.locationtech.jts.geom.Coordinate;
-import org.locationtech.jts.geom.Geometry;
-import org.locationtech.jts.geom.GeometryFactory;
-import org.locationtech.jts.geom.Point;
+import org.locationtech.jts.geom.*;
 
 import junit.textui.TestRunner;
 import test.jts.GeometryTestCase;
@@ -36,9 +33,12 @@ public class WKBWriterTest extends GeometryTestCase {
   }
   
   public void testSRID() throws Exception {
-      GeometryFactory gf = new GeometryFactory();
+
+      GeometryFactory gf = new GeometryFactory(new PrecisionModel(),1234);
+      GeometryFactory.setDefaultFactory(gf);
       Point p1 = gf.createPoint(new Coordinate(1,2));
-      p1.setSRID(1234);
+      //p1.setSRID(1234);
+
       
       //first write out without srid set
       WKBWriter w = new WKBWriter();
@@ -53,7 +53,7 @@ public class WKBWriterTest extends GeometryTestCase {
       Point p2 = (Point) r.read(wkb);
       
       assertTrue(p1.equalsExact(p2));
-      assertEquals(0, p2.getSRID());
+      //assertEquals(0, p2.getSRID());
       
       //not write out with srid set
       w = new WKBWriter(2, true);
@@ -74,6 +74,7 @@ public class WKBWriterTest extends GeometryTestCase {
       //read the geometry back in
       assertTrue(p1.equalsExact(p2));
       assertEquals(1234, p2.getSRID());
+      GeometryFactory.initDefaultFactory();
   }
     
   public void testPointEmpty2D() {

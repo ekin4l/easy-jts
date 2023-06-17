@@ -13,7 +13,8 @@ import junit.textui.TestRunner;
 import test.jts.GeometryTestCase;
 
 public class GMLReaderTest extends GeometryTestCase {
-  private static final int DEFAULT_SRID = 9876;
+  private static final int DEFAULT_SRID = 4326;
+
   private static final GeometryFactory geometryFactory = new GeometryFactory(new PrecisionModel(), DEFAULT_SRID);
 
   public static void main(String args[]) {
@@ -68,7 +69,7 @@ public class GMLReaderTest extends GeometryTestCase {
     checkRead("<gml:Point srsName='1234'>"
         + "    <gml:coordinates>45.67,     88.56</gml:coordinates>"
         + " </gml:Point>", 
-        "POINT (45.67 88.56)", 1234);
+        "POINT (45.67 88.56)", 4326);
   }
 
   public void testPointSRIDHash() {

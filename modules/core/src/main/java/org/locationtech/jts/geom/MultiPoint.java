@@ -87,7 +87,7 @@ public class MultiPoint
     for (int i = 0; i < points.length; i++) {
       points[i] = (Point) this.geometries[i].copy();
     }
-    return new MultiPoint(points, factory);
+    return new MultiPoint(points, getFactory());
   }
 
   public boolean equalsExact(Geometry other, double tolerance) {
@@ -113,7 +113,7 @@ public class MultiPoint
     for (int i = 0; i < points.length; i++) {
       points[i] = (Point) this.geometries[i].copy();
     }
-    return new MultiPoint(points, factory);
+    return new MultiPoint(points, getFactory());
   }
   
   protected int getTypeCode() {

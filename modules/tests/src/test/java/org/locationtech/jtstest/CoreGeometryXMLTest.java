@@ -18,6 +18,8 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import org.locationtech.jts.geom.GeometryFactory;
+import org.locationtech.jts.geom.PrecisionModel;
 import org.locationtech.jts.util.Assert;
 import org.locationtech.jtstest.testrunner.SimpleReportWriter;
 import org.locationtech.jtstest.testrunner.TestEngine;
@@ -51,6 +53,8 @@ public class CoreGeometryXMLTest extends TestCase {
 //    }
 
     private void testFiles(String... directoryName) {
+        GeometryFactory gf = new GeometryFactory(new PrecisionModel(),0);
+        GeometryFactory.setDefaultFactory(gf);
         TestEngine engine = new TestEngine();
         List<File> testFiles = new ArrayList<File>();
         for (String dirName : directoryName) {
@@ -64,6 +68,7 @@ public class CoreGeometryXMLTest extends TestCase {
         
         boolean failures = engine.getParseExceptionCount() + engine.getFailedCount() + engine.getExceptionCount() > 0;
         assertEquals(failures, false);
+        GeometryFactory.initDefaultFactory();
     }
 
     static FilenameFilter XML_FILTER = new FilenameFilter() {

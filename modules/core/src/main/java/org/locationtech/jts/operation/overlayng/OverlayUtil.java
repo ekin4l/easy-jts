@@ -331,7 +331,7 @@ class OverlayUtil {
       //Coordinate[] pts = getCoords(nss);
       Coordinate[] pts = edge.getCoordinatesOriented();
       LineString line = geomFact.createLineString(pts);
-      line.setUserData(labelForResult(edge) );
+      //line.setUserData(labelForResult(edge) );
       lines.add(line);
     }
     return geomFact.buildGeometry(lines);

@@ -130,9 +130,9 @@ public class GeometryEditor
     if (geometry == null) return null;
     
     Geometry result = editInternal(geometry, operation);
-    if (isUserDataCopied) {
-      result.setUserData(geometry.getUserData());
-    }
+//    if (isUserDataCopied) {
+//      result.setUserData(geometry.getUserData());
+//    }
     return result;
   }
   

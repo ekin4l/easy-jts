@@ -97,6 +97,8 @@ public class BufferTest extends GeometryTestCase {
   }
 
   public void testMultiLineString_separateBuffers_floatingSingle() throws Exception {
+    GeometryFactory gf =new GeometryFactory(new PrecisionModel(PrecisionModel.FLOATING_SINGLE),0);
+    GeometryFactory.setDefaultFactory(gf);
     BufferValidator bv = new BufferValidator(
       0.01,
       "MULTILINESTRING (( 635074.5418406526 6184832.4888257105, 635074.5681951842 6184832.571842485, 635074.6472587794 6184832.575795664 ), ( 635074.6657069515 6184832.53889932, 635074.6933792098 6184832.451929366, 635074.5642420045 6184832.474330718 ))",
@@ -106,9 +108,12 @@ public class BufferTest extends GeometryTestCase {
       bv.setEmptyBufferExpected(true);
       bv.setPrecisionModel(new PrecisionModel(PrecisionModel.FLOATING_SINGLE));
       bv.test();
+      GeometryFactory.initDefaultFactory();
   }
   
   public void testMultiLineString2_buffersTouchToMakeHole_floatingSingle() throws Exception {
+    GeometryFactory gf =new GeometryFactory(new PrecisionModel(PrecisionModel.FLOATING_SINGLE),0);
+    GeometryFactory.setDefaultFactory(gf);
     new BufferValidator(
       0.037,
       "MULTILINESTRING (( 635074.5418406526 6184832.4888257105, 635074.5681951842 6184832.571842485, 635074.6472587794 6184832.575795664 ), ( 635074.6657069515 6184832.53889932, 635074.6933792098 6184832.451929366, 635074.5642420045 6184832.474330718 ))",
@@ -117,8 +122,11 @@ public class BufferTest extends GeometryTestCase {
       .setEmptyBufferExpected(true)
       .setPrecisionModel(new PrecisionModel(PrecisionModel.FLOATING_SINGLE))
       .test();
+    GeometryFactory.initDefaultFactory();
   }
   public void testMultiLineString3_holeVanishes_floatingSingle() throws Exception {
+    GeometryFactory gf =new GeometryFactory(new PrecisionModel(PrecisionModel.FLOATING_SINGLE),0);
+    GeometryFactory.setDefaultFactory(gf);
     new BufferValidator(
       0.16,
       "MULTILINESTRING (( 635074.5418406526 6184832.4888257105, 635074.5681951842 6184832.571842485, 635074.6472587794 6184832.575795664 ), ( 635074.6657069515 6184832.53889932, 635074.6933792098 6184832.451929366, 635074.5642420045 6184832.474330718 ))",
@@ -127,6 +135,7 @@ public class BufferTest extends GeometryTestCase {
       .setEmptyBufferExpected(true)
       .setPrecisionModel(new PrecisionModel(PrecisionModel.FLOATING_SINGLE))
       .test();
+    GeometryFactory.initDefaultFactory();
   }
   public void testMultiLineString4_reallyBigDistance_floatingSingle() throws Exception {
     new BufferValidator(

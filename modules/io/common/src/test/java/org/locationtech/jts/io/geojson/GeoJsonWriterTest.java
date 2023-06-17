@@ -13,6 +13,8 @@
 package org.locationtech.jts.io.geojson;
 
 import org.locationtech.jts.geom.Geometry;
+import org.locationtech.jts.geom.GeometryFactory;
+import org.locationtech.jts.geom.PrecisionModel;
 import org.locationtech.jts.io.ParseException;
 
 import test.jts.GeometryTestCase;
@@ -32,9 +34,12 @@ public class GeoJsonWriterTest extends GeometryTestCase {
   }
 
   public void testCRS() throws ParseException {
+    GeometryFactory geomFactFixed = new GeometryFactory(new PrecisionModel(),1234);
+    GeometryFactory.setDefaultFactory(geomFactFixed);
     runTest("POINT (1 2)", 1234,
         "{'type':'Point','coordinates':[1,2],'crs':{'type':'name','properties':{'name':'EPSG:1234'}}}"
         );
+    GeometryFactory.initDefaultFactory();
   }
 
   public void testPoint() throws ParseException {

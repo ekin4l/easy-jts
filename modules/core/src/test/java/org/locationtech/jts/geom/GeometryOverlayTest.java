@@ -47,10 +47,12 @@ public class GeometryOverlayTest extends GeometryTestCase {
 
   private void checkIntersectionPM(PrecisionModel pmFixed, Geometry expected) {
     GeometryFactory geomFactFixed = new GeometryFactory(pmFixed);
+    GeometryFactory.setDefaultFactory(geomFactFixed);
     Geometry a = read(geomFactFixed, "POLYGON ((1 1, 1 2, 5 1, 1 1))");
     Geometry b = read(geomFactFixed, "POLYGON ((0 3, 4 3, 4 0, 0 0, 0 3))");
     Geometry actual = a.intersection(b);
     checkEqual(expected, actual);
+    GeometryFactory.initDefaultFactory();
   }
   
   public void testOverlayOld() {

@@ -185,7 +185,7 @@ public class Point
   }
 
   protected Point copyInternal() {
-    return new Point(coordinates.copy(), factory);
+    return new Point(coordinates.copy(), getFactory());
   }
 
   public Point reverse() {

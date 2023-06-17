@@ -277,7 +277,7 @@ public class LineString
   }
 
   protected LineString copyInternal() {
-    return new LineString(points.copy(), factory);
+    return new LineString(points.copy(), getFactory());
   }
 
   /**

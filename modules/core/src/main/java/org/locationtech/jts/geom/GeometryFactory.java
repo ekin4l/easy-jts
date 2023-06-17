@@ -35,6 +35,15 @@ public class GeometryFactory
     implements Serializable
 {
   private static final long serialVersionUID = -6820524753094095635L;
+
+
+
+  public static GeometryFactory defaultFactory;
+
+  static {
+    initDefaultFactory();
+  }
+
   private PrecisionModel precisionModel;
 
   private CoordinateSequenceFactory coordinateSequenceFactory;
@@ -687,5 +696,20 @@ public class GeometryFactory
     return coordinateSequenceFactory;
   }
 
+  /**
+   * Get default GeometryFactory;
+   * @return default GeometryFacotry instance
+   */
+  public static GeometryFactory getDefault(){
+    return defaultFactory;
+  }
+
+  public static void setDefaultFactory(GeometryFactory customGeometryFactory){
+    defaultFactory = customGeometryFactory;
+  }
+
+  public static void initDefaultFactory(){
+    defaultFactory = new GeometryFactory(new PrecisionModel(),4326);;
+  }
 }
 
