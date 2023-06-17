@@ -42,7 +42,7 @@ public class OverlayAreaFunctions {
     double area = intersectionAreaPrep(geom0, geom1);
     if (area == 0.0) return null;
     Geometry result = geom1.copy();
-    result.setUserData(area);
+    //result.setUserData(area);
     return result;
   }
   
@@ -50,7 +50,7 @@ public class OverlayAreaFunctions {
     double area = intersectionArea(geom0, geom1);
     if (area == 0.0) return null;
     Geometry result = geom1.copy();
-    result.setUserData(area);
+    //result.setUserData(area);
     return result;
   }
   
@@ -75,7 +75,7 @@ public class OverlayAreaFunctions {
     if (area == 0.0) return null;
     
     Geometry result = geom1.copy();
-    result.setUserData(area);
+    //result.setUserData(area);
     return result;
   }
   
@@ -84,7 +84,7 @@ public class OverlayAreaFunctions {
     if (area == 0.0) return null;
     
     Geometry result = geom1.copy();
-    result.setUserData(area);
+    //result.setUserData(area);
     return result;
   }
   

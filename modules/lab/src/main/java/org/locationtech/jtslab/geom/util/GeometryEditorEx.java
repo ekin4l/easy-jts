@@ -108,7 +108,7 @@ public class GeometryEditorEx
 
   /**
    * Creates a GeometryEditor which edits geometries using
-   * a given {@link  GeometryOperation}
+   * a given {@link  GeometryEditorOperation}
    * and the same {@link GeometryFactory} as the input Geometry.
    * 
    * @param operation the edit operation to use
@@ -120,7 +120,7 @@ public class GeometryEditorEx
 
   /**
    * Creates a GeometryEditor which edits geometries using
-   * a given {@link GeometryOperation}
+   * a given {@link GeometryEditorOperation}
    * and the given {@link GeometryFactory}.
    * 
    * @param operation the edit operation to use
@@ -159,9 +159,9 @@ public class GeometryEditorEx
     if (geometry == null) return null;
     
     Geometry result = editInternal(geometry);
-    if (isUserDataCopied) {
-      result.setUserData(geometry.getUserData());
-    }
+//    if (isUserDataCopied) {
+//      result.setUserData(geometry.getUserData());
+//    }
     return result;
   }
   
