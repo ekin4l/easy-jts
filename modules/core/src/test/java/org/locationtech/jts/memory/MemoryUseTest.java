@@ -57,18 +57,20 @@ public class MemoryUseTest {
         List<LineString> reslut = new ArrayList<>(objCreateNum);
 
         for(int i=0;i<objCreateNum;i++){
-            if(i%100000==0){
+            if(i%1000==0){
                 System.out.println("add "+ i);
             }
 
             double[] xyArray = new double[linePointSize*2];
             for(int j=0;j<linePointSize*2;){
-               xyArray[j]=129.344381d;
-               xyArray[j+1]=33.938316d;
+               xyArray[j]=129.344381d+0.0001*j;
+               xyArray[j+1]=33.938316d+0.0001*j;
                j += 2;
             }
             CoordinateSequence sequence  = new XYCoordinateSequence.DoubleXY(xyArray);
             LineString line = new LineString(sequence,GeometryFactory.getDefault());
+            double len = line.getLength();
+            line.getEnvelope();
             reslut.add(line);
         }
         return reslut;

@@ -11,8 +11,11 @@
  */
 package org.locationtech.jts.algorithm;
 
+import org.locationtech.jts.algorithm.distance.LocalLonLatDistance;
 import org.locationtech.jts.geom.Coordinate;
 import org.locationtech.jts.geom.CoordinateSequence;
+import org.locationtech.jts.geom.GeometryFactory;
+import org.locationtech.jts.geom.SRID;
 
 /**
  * Functions for computing length.
@@ -41,18 +44,27 @@ public class Length {
     pts.getCoordinate(0, p);
     double x0 = p.x;
     double y0 = p.y;
-  
-    for (int i = 1; i < n; i++) {
-      pts.getCoordinate(i, p);
-      double x1 = p.x;
-      double y1 = p.y;
-      double dx = x1 - x0;
-      double dy = y1 - y0;
-  
-      len += Math.hypot(dx, dy);
-  
-      x0 = x1;
-      y0 = y1;
+
+    if(GeometryFactory.getDefault().getSRID()== SRID.WGS84){
+      for (int i = 1; i < n; i++) {
+        pts.getCoordinate(i, p);
+        len += LocalLonLatDistance.distance(x0,y0 ,p.x,p.y);
+        x0 = p.x;
+        y0 = p.y;
+      }
+    }else {
+      for (int i = 1; i < n; i++) {
+        pts.getCoordinate(i, p);
+        double x1 = p.x;
+        double y1 = p.y;
+        double dx = x1 - x0;
+        double dy = y1 - y0;
+
+        len += Math.hypot(dx, dy);
+
+        x0 = x1;
+        y0 = y1;
+      }
     }
     return len;
   }
