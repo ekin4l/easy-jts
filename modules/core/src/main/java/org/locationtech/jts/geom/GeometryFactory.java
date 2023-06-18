@@ -19,6 +19,9 @@ import org.locationtech.jts.geom.impl.CoordinateArraySequenceFactory;
 import org.locationtech.jts.geom.util.GeometryEditor;
 import org.locationtech.jts.util.Assert;
 
+import static org.locationtech.jts.geom.SRID.GCJ02;
+import static org.locationtech.jts.geom.SRID.WGS84;
+
 /**
  * Supplies a set of utility methods for building Geometry objects from lists
  * of Coordinates.
@@ -59,11 +62,14 @@ public class GeometryFactory
    * Constructs a GeometryFactory that generates Geometries having the given
    * PrecisionModel, spatial-reference ID, and CoordinateSequence implementation.
    */
-  public GeometryFactory(PrecisionModel precisionModel, int SRID,
+  public GeometryFactory(PrecisionModel precisionModel, int srid,
                          CoordinateSequenceFactory coordinateSequenceFactory) {
       this.precisionModel = precisionModel;
       this.coordinateSequenceFactory = coordinateSequenceFactory;
-      this.SRID = SRID;
+      this.SRID = srid;
+      if(srid== GCJ02|| SRID == WGS84){
+         this.geoCoordSys = true;
+      }
   }
 
   /**
@@ -690,7 +696,13 @@ public class GeometryFactory
     return SRID;
   }
 
+  public boolean isGeoCoordSys() {
+    return geoCoordSys;
+  }
+
   private int SRID;
+
+  private boolean geoCoordSys = false;
 
   public CoordinateSequenceFactory getCoordinateSequenceFactory() {
     return coordinateSequenceFactory;
@@ -709,7 +721,7 @@ public class GeometryFactory
   }
 
   public static void initDefaultFactory(){
-    defaultFactory = new GeometryFactory(new PrecisionModel(),4326);;
+    defaultFactory = new GeometryFactory(new PrecisionModel(), GCJ02);
   }
 }
 

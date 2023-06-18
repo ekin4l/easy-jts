@@ -11,6 +11,8 @@
  */
 package org.locationtech.jts.geom;
 
+import org.locationtech.jts.algorithm.distance.LocalLonLatDistance;
+
 import java.io.Serializable;
 
 /**
@@ -277,7 +279,11 @@ public class Envelope
     if (isNull()) {
       return 0;
     }
-    return maxx - minx;
+    if(GeometryFactory.getDefault().isGeoCoordSys()){
+      return LocalLonLatDistance.distance(minx,miny,maxx,miny);
+    }else{
+      return maxx - minx;
+    }
   }
 
   /**
@@ -289,7 +295,11 @@ public class Envelope
     if (isNull()) {
       return 0;
     }
-    return maxy - miny;
+    if(GeometryFactory.getDefault().isGeoCoordSys()){
+      return LocalLonLatDistance.distance(minx,miny,minx,maxy);
+    }else {
+      return maxy - miny;
+    }
   }
 
   /**
