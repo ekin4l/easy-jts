@@ -13,6 +13,8 @@ package org.locationtech.jts.operation.buffer;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import org.locationtech.jts.algorithm.distance.LocalLonLatDistance;
 import org.locationtech.jts.geom.Envelope;
 import org.locationtech.jts.geom.Geometry;
 import org.locationtech.jts.geom.GeometryFactory;
@@ -362,7 +364,15 @@ public class BufferOp
    */
   public Geometry getResultGeometry(double distance)
   {
-    this.distance = distance;
+    if(argGeom.getFactory().isGeoCoordSys()) {
+      double distRad = LocalLonLatDistance.distanceToRadians(distance);
+      double maxYRad = Math.toRadians(this.argGeom.getEnvelopeInternal().getMaxY());
+      double minDistRad = LocalLonLatDistance.deltaLonRAD(maxYRad, distRad);
+      double minDegree = Math.toDegrees(minDistRad);
+      this.distance = minDegree;
+    }else{
+      this.distance = distance;
+    }
     computeGeometry();
     return resultGeometry;
   }
