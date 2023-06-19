@@ -22,6 +22,11 @@ public class LocalLonLatDistance {
 
     public static final double PI_OVER_4 = Math.PI / 4.0;
 
+    public static double distanceToRadians(double distM)
+    {
+        return distM / R;
+    }
+
     public static double distanceToMeters(double distRAD)
     {
         return distRAD * R;
@@ -60,6 +65,11 @@ public class LocalLonLatDistance {
         double squareDistance = deltaLon * deltaLon + deltaLat * deltaLat;
         double distance = Math.sqrt(squareDistance);
         return distance;
+    }
+    private static double deltaLonRAD(double lat, double dist)
+    {
+        double deltaLon = Math.asin(Math.sin(dist) / Math.cos(lat));
+        return deltaLon;
     }
 
 

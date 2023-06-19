@@ -55,7 +55,7 @@ public class MemoryUseTest {
 
     private static Collection<LineString> createXYPackedLines(int objCreateNum,int linePointSize) {
         List<LineString> reslut = new ArrayList<>(objCreateNum);
-
+        LineString last = null;
         for(int i=0;i<objCreateNum;i++){
             if(i%1000==0){
                 System.out.println("add "+ i);
@@ -72,6 +72,15 @@ public class MemoryUseTest {
             double len = line.getLength();
             line.getEnvelope();
             reslut.add(line);
+            if(last!=null) {
+//                boolean isI = line.intersects(last);
+//                Geometry geo = line.intersection(last);
+//                isI = line.covers(last);
+//                System.out.println(isI);
+//                Geometry bufLine = line.buffer(2.0);
+//                System.out.println(bufLine);bufLine
+            }
+            last = line;
         }
         return reslut;
     }
