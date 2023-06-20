@@ -66,7 +66,7 @@ public class LocalLonLatDistance {
         double distance = Math.sqrt(squareDistance);
         return distance;
     }
-    private static double deltaLonRAD(double lat, double dist)
+    public static double deltaLonRAD(double lat, double dist)
     {
         double deltaLon = Math.asin(Math.sin(dist) / Math.cos(lat));
         return deltaLon;
