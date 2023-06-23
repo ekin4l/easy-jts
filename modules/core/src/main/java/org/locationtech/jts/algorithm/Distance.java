@@ -11,8 +11,10 @@
  */
 package org.locationtech.jts.algorithm;
 
+import org.locationtech.jts.algorithm.distance.LocalLonLatDistance;
 import org.locationtech.jts.geom.Coordinate;
 import org.locationtech.jts.geom.Envelope;
+import org.locationtech.jts.geom.GeometryFactory;
 import org.locationtech.jts.math.MathUtil;
 
 /**
@@ -150,43 +152,62 @@ public class Distance {
     // if start = end, then just compute distance to one of the endpoints
     if (A.x == B.x && A.y == B.y)
       return p.distance(A);
-  
-    // otherwise use comp.graphics.algorithms Frequently Asked Questions method
-    /*
-     * (1) r = AC dot AB 
-     *         --------- 
-     *         ||AB||^2 
-     *         
-     * r has the following meaning: 
-     *   r=0 P = A 
-     *   r=1 P = B 
-     *   r<0 P is on the backward extension of AB 
-     *   r>1 P is on the forward extension of AB 
-     *   0<r<1 P is interior to AB
-     */
-  
-    double len2 = (B.x - A.x) * (B.x - A.x) + (B.y - A.y) * (B.y - A.y);
-    double r = ((p.x - A.x) * (B.x - A.x) + (p.y - A.y) * (B.y - A.y))
-        / len2;
-  
-    if (r <= 0.0)
-      return p.distance(A);
-    if (r >= 1.0)
-      return p.distance(B);
-  
-    /*
-     * (2) s = (Ay-Cy)(Bx-Ax)-(Ax-Cx)(By-Ay) 
-     *         ----------------------------- 
-     *                    L^2
-     * 
-     * Then the distance from C to P = |s|*L.
-     * 
-     * This is the same calculation as {@link #distancePointLinePerpendicular}.
-     * Unrolled here for performance.
-     */
-    double s = ((A.y - p.y) * (B.x - A.x) - (A.x - p.x) * (B.y - A.y))
-        / len2;
-    return Math.abs(s) * Math.sqrt(len2);
+
+    if(GeometryFactory.getDefault().isGeoCoordSys()){
+      LineProjectResult result = LineProjector.project(p.x,p.y,A.x,A.y,B.x,B.y);
+      double x=0.0d;
+      double y=0.0d;
+      if(result.pos==LinePosition.INSIDE){
+        x = result.lon;
+        y = result.lat;
+      }else if(result.pos == LinePosition.OUTSIDE_START){
+        x = A.x;
+        y = A.y;
+      }else if(result.pos == LinePosition.OUTSIDE_END){
+        x = B.x;
+        y = B.y;
+      }else{
+        return 0.0d;
+      }
+      return LocalLonLatDistance.distance(p.x,p.y,x,y);
+    }else {
+      // otherwise use comp.graphics.algorithms Frequently Asked Questions method
+      /*
+       * (1) r = AC dot AB
+       *         ---------
+       *         ||AB||^2
+       *
+       * r has the following meaning:
+       *   r=0 P = A
+       *   r=1 P = B
+       *   r<0 P is on the backward extension of AB
+       *   r>1 P is on the forward extension of AB
+       *   0<r<1 P is interior to AB
+       */
+
+      double len2 = (B.x - A.x) * (B.x - A.x) + (B.y - A.y) * (B.y - A.y);
+      double r = ((p.x - A.x) * (B.x - A.x) + (p.y - A.y) * (B.y - A.y))
+              / len2;
+
+      if (r <= 0.0)
+        return p.distance(A);
+      if (r >= 1.0)
+        return p.distance(B);
+
+      /*
+       * (2) s = (Ay-Cy)(Bx-Ax)-(Ax-Cx)(By-Ay)
+       *         -----------------------------
+       *                    L^2
+       *
+       * Then the distance from C to P = |s|*L.
+       *
+       * This is the same calculation as {@link #distancePointLinePerpendicular}.
+       * Unrolled here for performance.
+       */
+      double s = ((A.y - p.y) * (B.x - A.x) - (A.x - p.x) * (B.y - A.y))
+              / len2;
+      return Math.abs(s) * Math.sqrt(len2);
+    }
   }
 
   /**
@@ -204,19 +225,32 @@ public class Distance {
   public static double pointToLinePerpendicular(Coordinate p,
       Coordinate A, Coordinate B)
   {
-    // use comp.graphics.algorithms Frequently Asked Questions method
-    /*
-     * (2) s = (Ay-Cy)(Bx-Ax)-(Ax-Cx)(By-Ay) 
-     *         ----------------------------- 
-     *                    L^2
-     * 
-     * Then the distance from C to P = |s|*L.
-     */
-    double len2 = (B.x - A.x) * (B.x - A.x) + (B.y - A.y) * (B.y - A.y);
-    double s = ((A.y - p.y) * (B.x - A.x) - (A.x - p.x) * (B.y - A.y))
-        / len2;
-  
-    return Math.abs(s) * Math.sqrt(len2);
+    if(GeometryFactory.getDefault().isGeoCoordSys()){
+      LineProjectResult result = LineProjector.project(p.x,p.y,A.x,A.y,B.x,B.y);
+      double x=0.0d;
+      double y=0.0d;
+      if(result.pos==LinePosition.UNKNOWN){
+        return 0.0d;
+      }else{
+        x = result.lon;
+        y = result.lat;
+      }
+      return LocalLonLatDistance.distance(p.x,p.y,x,y);
+    }else {
+      // use comp.graphics.algorithms Frequently Asked Questions method
+      /*
+       * (2) s = (Ay-Cy)(Bx-Ax)-(Ax-Cx)(By-Ay)
+       *         -----------------------------
+       *                    L^2
+       *
+       * Then the distance from C to P = |s|*L.
+       */
+      double len2 = (B.x - A.x) * (B.x - A.x) + (B.y - A.y) * (B.y - A.y);
+      double s = ((A.y - p.y) * (B.x - A.x) - (A.x - p.x) * (B.y - A.y))
+              / len2;
+
+      return Math.abs(s) * Math.sqrt(len2);
+    }
   }
 
   public static double pointToLinePerpendicularSigned(Coordinate p,

@@ -14,6 +14,7 @@ package org.locationtech.jts.geom;
 import java.io.Serializable;
 import java.util.Comparator;
 
+import org.locationtech.jts.algorithm.distance.LocalLonLatDistance;
 import org.locationtech.jts.util.Assert;
 import org.locationtech.jts.util.NumberUtil;
 
@@ -433,9 +434,13 @@ public class Coordinate implements Comparable<Coordinate>, Cloneable, Serializab
    * @return the 2-dimensional Euclidean distance between the locations
    */
   public double distance(Coordinate c) {
-    double dx = x - c.x;
-    double dy = y - c.y;
-    return Math.hypot(dx, dy);
+    if(GeometryFactory.getDefault().isGeoCoordSys()){
+      return LocalLonLatDistance.distance(x,y,c.x,c.y);
+    }else {
+      double dx = x - c.x;
+      double dy = y - c.y;
+      return Math.hypot(dx, dy);
+    }
   }
 
   /**

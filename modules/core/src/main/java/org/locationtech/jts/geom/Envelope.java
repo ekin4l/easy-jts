@@ -776,21 +776,50 @@ public class Envelope
   {
     if (intersects(env)) return 0;
 
-    double dx = 0.0;
-    if (maxx < env.minx)
-      dx = env.minx - maxx;
-    else if (minx > env.maxx)
-      dx = minx - env.maxx;
+    if(GeometryFactory.defaultFactory.isGeoCoordSys()){
+      double curLon = 0.0d;
+      double curLat = 0.0d;
+      double envLon = 0.0d;
+      double envLat = 0.0d;
+      if (maxx <= env.minx) {
+        curLon = maxx;
+        envLon = env.minx;
+      } else if (minx > env.maxx) {
+        curLon = minx;
+        envLon = env.maxx;
+      }
 
-    double dy = 0.0;
-    if (maxy < env.miny)
-      dy = env.miny - maxy;
-    else if (miny > env.maxy) dy = miny - env.maxy;
+      if (maxy <= env.miny) {
+        curLat = maxy;
+        envLat = env.miny;
+      }else if (miny > env.maxy) {
+        curLat = miny;
+        envLat = maxy;
+      }
+      if(curLon==0){
+        curLon = envLon  = minx;
+      }else if(curLat==0){
+        curLat = envLat = maxy > env.maxy? maxy:env.maxy;
+      }
+      return LocalLonLatDistance.distance(curLon, curLat, envLon, envLat);
 
-    // if either is zero, the envelopes overlap either vertically or horizontally
-    if (dx == 0.0) return dy;
-    if (dy == 0.0) return dx;
-    return Math.hypot(dx, dy);
+    }else {
+      double dx = 0.0;
+      if (maxx < env.minx)
+        dx = env.minx - maxx;
+      else if (minx > env.maxx)
+        dx = minx - env.maxx;
+
+      double dy = 0.0;
+      if (maxy < env.miny)
+        dy = env.miny - maxy;
+      else if (miny > env.maxy) dy = miny - env.maxy;
+
+      // if either is zero, the envelopes overlap either vertically or horizontally
+      if (dx == 0.0) return dy;
+      if (dy == 0.0) return dx;
+      return Math.hypot(dx, dy);
+    }
   }
 
   public boolean equals(Object other) {
