@@ -33,12 +33,12 @@ public class LocalLonLatDistance {
     }
 
 
-    private static double scaleLonRAD(double lat)
+    public static double scaleLonRAD(double lat)
     {
         return Math.cos(lat);
     }
 
-    private static double scaleLonRAD(double lat1, double lat2)
+    public static double scaleLonRAD(double lat1, double lat2)
     {
         return Math.cos((lat1 + lat2) * 0.5);
     }
