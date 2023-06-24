@@ -55,6 +55,10 @@ public class MultiLineString
     super(lineStrings, factory);
   }
 
+  public MultiLineString(LineString[] lineStrings) {
+    this(lineStrings,GeometryFactory.getDefault());
+  }
+
   public int getDimension() {
     return 1;
   }

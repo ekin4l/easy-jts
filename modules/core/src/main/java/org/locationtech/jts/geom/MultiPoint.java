@@ -50,6 +50,10 @@ public class MultiPoint
     super(points, factory);
   }
 
+  public MultiPoint(Point[] points) {
+    this(points,GeometryFactory.getDefault());
+  }
+
   public int getDimension() {
     return 0;
   }

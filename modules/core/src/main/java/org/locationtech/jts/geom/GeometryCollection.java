@@ -56,6 +56,10 @@ public class GeometryCollection extends Geometry {
     this.geometries = geometries;
   }
 
+  public GeometryCollection(Geometry[] geometries) {
+    this(geometries,GeometryFactory.getDefault());
+  }
+
   public Coordinate getCoordinate() {
     if (isEmpty()) return null;
     return geometries[0].getCoordinate();

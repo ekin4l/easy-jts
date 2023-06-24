@@ -69,6 +69,12 @@ public class LineString
     init(getFactory().getCoordinateSequenceFactory().create(points));
   }
 
+  public LineString(Coordinate points[])
+  {
+    super(GeometryFactory.getDefault());
+    init(getFactory().getCoordinateSequenceFactory().create(points));
+  }
+
   /**
    * Constructs a <code>LineString</code> with the given points.
    *
@@ -78,6 +84,11 @@ public class LineString
    */
   public LineString(CoordinateSequence points, GeometryFactory factory) {
     super(factory);
+    init(points);
+  }
+
+  public LineString(CoordinateSequence points) {
+    super(GeometryFactory.getDefault());
     init(points);
   }
 

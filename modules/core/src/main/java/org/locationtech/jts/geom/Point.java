@@ -60,6 +60,10 @@ public class Point
     init(coordinates);
   }
 
+  public Point(CoordinateSequence coordinates) {
+    this(coordinates,GeometryFactory.getDefault());
+  }
+
   private void init(CoordinateSequence coordinates)
   {
     if (coordinates == null) {

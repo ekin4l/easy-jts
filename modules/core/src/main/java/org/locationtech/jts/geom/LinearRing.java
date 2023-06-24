@@ -69,7 +69,9 @@ public class LinearRing extends LineString
   private LinearRing(Coordinate points[], GeometryFactory factory) {
     this(factory.getCoordinateSequenceFactory().create(points), factory);
   }
-
+  private LinearRing(Coordinate points[]) {
+    this(points,GeometryFactory.getDefault());
+  }
 
   /**
    * Constructs a <code>LinearRing</code> with the vertices
@@ -85,7 +87,9 @@ public class LinearRing extends LineString
     super(points, factory);
     validateConstruction();
   }
-
+  public LinearRing(CoordinateSequence points) {
+    this(points, GeometryFactory.getDefault());
+  }
   private void validateConstruction() {
     if (!isEmpty() && ! super.isClosed()) {
       throw new IllegalArgumentException("Points of LinearRing do not form a closed linestring");

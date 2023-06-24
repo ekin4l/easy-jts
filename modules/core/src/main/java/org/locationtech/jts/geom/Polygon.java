@@ -128,6 +128,10 @@ public class Polygon
     this.holes = holes;
   }
 
+  public Polygon(LinearRing shell, LinearRing[] holes) {
+    this(shell,holes,GeometryFactory.getDefault());
+  }
+
   public Coordinate getCoordinate() {
     return shell.getCoordinate();
   }

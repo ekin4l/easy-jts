@@ -64,6 +64,10 @@ public class MultiPolygon
     super(polygons, factory);
   }
 
+  public MultiPolygon(Polygon[] polygons) {
+    this(polygons,GeometryFactory.getDefault());
+  }
+
   public int getDimension() {
     return 2;
   }
